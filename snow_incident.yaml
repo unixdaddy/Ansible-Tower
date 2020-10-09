@@ -1,0 +1,25 @@
+---
+- name: Using ServiceNow Collection
+  hosts: localhost
+  gather_facts: no
+  collections:
+    - servicenow.servicenow
+
+  tasks:
+  - name: load vars for use in incident
+    include_vars: change_request_vars.yaml
+  - name: Create an incident
+    snow_record:
+      username: "{{ sn_username }}"
+      password: "{{ sn_password }}"
+      instance: "{{ sn_instance }}"
+      state: present
+      data:
+        short_description: "This is a test incident opened by Ansible - Part deux"
+        severity: "{{ sn_severity }}"
+        priority: "{{ sn_priority }}"
+        assigned_to: "abraham.lincoln"
+        assignment_group: "US Presidents Group 2"
+    register: new_incident
+  - debug:
+          var: new_incident.record.number
