@@ -6,13 +6,13 @@
     - servicenow.servicenow
 
   tasks:
-  #- name: load vars for use in incident
-  #  include_vars: change_request_vars.yaml
+  - name: load vars for use in incident
+    include_vars: password.yaml
   - name: Create an incident
     snow_record:
-      username: "{{ sn_username }}"
+      username: "admin"
       password: "{{ sn_password }}"
-      instance: "{{ sn_instance }}"
+      instance: "dev63304"
       state: present
       data:
         short_description: "This is a test incident opened by Ansible - Part deux"
