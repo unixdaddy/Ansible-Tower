@@ -32,8 +32,8 @@
         state: present
         data:
           short_description: "This is a test incident opened by Ansible - {{ ansible_hostname }}"
-          severity: "{{ sn_severity }}"
-          priority: "{{ sn_priority }}"
+          severity: "2"
+          priority: "2"
           assigned_to: "abraham.lincoln"
           assignment_group: "US Presidents Group 2"
           work_notes: "from {{ ansible_hostname }}"
