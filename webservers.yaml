@@ -1,0 +1,44 @@
+---
+- name: Install the apache web service
+  hosts: webservers
+  become: yes
+  collections:
+    - servicenow.servicenow
+
+  tasks:
+    - name: load vars for use in incident
+      include_vars: change_request_vars.yaml
+    - name: load password vars for use in incident
+      include_vars: password.yaml
+
+    - name: install apache
+      yum:
+        name: httpd
+        state: present
+
+    - name: start httpd
+      service:
+        name: httpd
+        state: started
+      register: app
+    - debug:
+          var: app.state
+
+    - name: Create an incident
+      snow_record:
+        username: "{{ sn_username }}"
+        password: "{{ sn_password }}"
+        instance: "{{ sn_instance }}"
+        state: present
+        data:
+          short_description: "This is a test incident opened by Ansible - {{ ansible_hostname }}"
+          severity: "{{ sn_severity }}"
+          priority: "{{ sn_priority }}"
+          assigned_to: "abraham.lincoln"
+          assignment_group: "US Presidents Group 2"
+          work_notes: "from {{ ansible_hostname }}"
+      register: new_incident
+      when: app.state == "started"
+      delegate_to: tower1.1b24.internal
+    - debug:
+            var: new_incident.record.number
