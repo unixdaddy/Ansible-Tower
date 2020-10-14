@@ -20,8 +20,8 @@
       service:
         name: httpd
         state: started
-      register: app
-      ignore_errors: yes
+        ignore_errors: yes
+      register: app      
     - debug:
           var: app
 
