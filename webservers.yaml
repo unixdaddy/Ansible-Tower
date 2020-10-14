@@ -22,8 +22,8 @@
         name: httpd
         state: started        
       register: app      
-    - debug:
-          var: app
+    #- debug:
+    #      var: app
 
     - name: Create an incident
       snow_record:
