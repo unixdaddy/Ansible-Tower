@@ -21,6 +21,7 @@
         name: httpd
         state: started
       register: app
+      ignore_errors: yes
     - debug:
           var: app
 
