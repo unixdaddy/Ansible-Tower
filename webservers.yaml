@@ -17,10 +17,10 @@
         state: present
 
     - name: start httpd
+      ignore_errors: yes
       service:
         name: httpd
-        state: started
-        ignore_errors: yes
+        state: started        
       register: app      
     - debug:
           var: app
