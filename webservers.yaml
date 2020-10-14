@@ -21,9 +21,9 @@
       service:
         name: httpd
         state: started        
-      register: app      
+      register: app.failed      
     - debug:
-          var: app
+          var: app.failed
 
     - name: Create an incident
       snow_record:
