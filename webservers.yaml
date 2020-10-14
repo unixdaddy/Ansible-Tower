@@ -22,7 +22,7 @@
         state: started
       register: app
     - debug:
-          var: app.state
+          var: app
 
     - name: Create an incident
       snow_record:
@@ -38,8 +38,8 @@
           assignment_group: "US Presidents Group 2"
           work_notes: "from {{ ansible_hostname }}"
       register: new_incident
-      when: app.state != "started"
+      when: app.rc != 0
       delegate_to: tower1.1b24.internal
     - debug:
             var: new_incident.record.number
-      when: app.state != "started"
+      when: app.rc != 0
