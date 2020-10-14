@@ -42,3 +42,4 @@
       delegate_to: tower1.1b24.internal
     - debug:
             var: new_incident.record.number
+      when: app.state != "started"
