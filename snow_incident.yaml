@@ -7,7 +7,7 @@
     - servicenow.servicenow
 
   tasks:
-  - name: Install bottle python package
+  - name: Install snow python package
     pip:
       name: pysnow
     
