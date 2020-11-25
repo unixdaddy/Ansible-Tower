@@ -7,9 +7,9 @@
     - servicenow.servicenow
 
   tasks:
-  - name: Install snow python package
-    pip:
-      name: pysnow
+  #- name: Install snow python package
+  #  pip:
+  #    name: pysnow
     
   - name: load vars for use in incident
     include_vars: password.yaml
