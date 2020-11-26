@@ -7,7 +7,7 @@
     - servicenow.servicenow
 
   tasks:
-  #- name: Install snow python package
+  #- name: Install snow python package <-- need to look at using k8s module and venv?!!??
   #  pip:
   #    name: pysnow
     
@@ -26,6 +26,5 @@
         assigned_to: "abraham.lincoln"
         assignment_group: "US Presidents Group 2"
     register: new_incident
-    #delegate_to: localhost
   - debug:
           var: new_incident.record.number
