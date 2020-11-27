@@ -24,7 +24,7 @@
       become: true
       become_user: root
       action: >
-       {{ ansible_pkg_mgr }} name=httpd state=present update_cache=yes
+       {{ ansible_pkg_mgr }} name=httpd state=absent update_cache=yes
      #when: ansible_distribution == "CentOS"
      
         
