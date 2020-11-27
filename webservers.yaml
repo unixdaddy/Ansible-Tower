@@ -25,7 +25,7 @@
       become_user: root
       action: >
        {{ ansible_pkg_mgr }} name=httpd state=present update_cache=yes
-     when: ansible_distribution == "CentOS"
+      when: ansible_distribution == "CentOS"
 
     - name: install packages
       become: true
@@ -42,7 +42,7 @@
       register: app 
       when: ansible_distribution == "CentOS"
   
-      - name: start httpd
+    - name: start httpd
       ignore_errors: yes
       service:
         name: apache
