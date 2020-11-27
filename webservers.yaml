@@ -47,7 +47,7 @@
       service:
         name: apache2
         state: started        
-      register: app 
+      #register: app 
       when: ansible_distribution == "Ubuntu"
    
     - debug:
@@ -69,6 +69,7 @@
       register: new_incident
       when: app is failed
       delegate_to: localhost
+    
     - debug:
             var: new_incident.record.number
       when: app is failed or install is failed
