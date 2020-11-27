@@ -72,4 +72,4 @@
     
     - debug:
             var: new_incident.record.number
-      when: app.failed == 'True' or install.failed == "True"
+      when: app is failed
