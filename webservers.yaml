@@ -40,8 +40,8 @@
           assignment_group: "US Presidents Group 2"
           work_notes: "from {{ ansible_hostname }}"
       register: new_incident
-      when: app is failed
+      #when: app is failed
       delegate_to: ansible-tower-web-svc-ansible-tower.apps.cluster-a03f.sandbox1838.opentlc.com
     - debug:
             var: new_incident.record.number
-      when: app is failed
+      #when: app is failed
