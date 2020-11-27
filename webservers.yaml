@@ -16,7 +16,8 @@
       package:
         name: httpd
         state: present
-
+      register: install
+      
     - name: start httpd
       ignore_errors: yes
       service:
@@ -40,8 +41,8 @@
           assignment_group: "US Presidents Group 2"
           work_notes: "from {{ ansible_hostname }}"
       register: new_incident
-      #when: app is failed
+      when: app is failed or install is failed
       delegate_to: localhost
     - debug:
             var: new_incident.record.number
-      #when: app is failed
+      when: app is failed or install is failed
