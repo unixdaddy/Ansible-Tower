@@ -39,7 +39,17 @@
       service:
         name: httpd
         state: started        
-      register: app      
+      register: app 
+      when: ansible_distribution == "CentOS"
+  
+      - name: start httpd
+      ignore_errors: yes
+      service:
+        name: httpd
+        state: started        
+      register: app 
+      when: ansible_distribution == "Ubuntu"
+      
     - debug:
          var: app
 
@@ -57,7 +67,7 @@
           assignment_group: "US Presidents Group 2"
           work_notes: "from {{ ansible_hostname }}"
       register: new_incident
-      #when: install is failed
+      when: app is failed
       delegate_to: localhost
     - debug:
             var: new_incident.record.number
