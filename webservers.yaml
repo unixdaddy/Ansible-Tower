@@ -31,7 +31,7 @@
       become: true
       become_user: root
       action: >
-       {{ ansible_pkg_mgr }} name=apache state=present update_cache=yes
+       {{ ansible_pkg_mgr }} name=apache2 state=present update_cache=yes
       when: ansible_distribution == "Ubuntu"
         
     - name: start httpd
@@ -45,7 +45,7 @@
     - name: start httpd
       ignore_errors: yes
       service:
-        name: apache
+        name: apache2
         state: started        
       register: app 
       when: ansible_distribution == "Ubuntu"
