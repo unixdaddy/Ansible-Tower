@@ -1,7 +1,7 @@
 ---
 - name: Install the apache web service
   #hosts: webservers
-  hosts: All
+  hosts: all
   become: yes
   collections:
     - servicenow.servicenow
