@@ -13,7 +13,7 @@
       include_vars: password.yaml
 
     - name: install apache
-      yum:
+      package:
         name: httpd
         state: present
 
