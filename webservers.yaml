@@ -53,23 +53,23 @@
     - debug:
          var: app
 
-    - name: Create an incident
-      snow_record:
-        username: "admin"
-        password: "{{ sn_password }}"
-        instance: "dev59613"
-        state: present
-        data:
-          short_description: "This is a test incident opened by Ansible - {{ ansible_hostname }}"
-          severity: "2"
-          priority: "2"
-          assigned_to: "abraham.lincoln"
-          assignment_group: "US Presidents Group 2"
-          work_notes: "from {{ ansible_hostname }}"
-      register: new_incident
-      when: app is failed
-      delegate_to: localhost
+  #  - name: Create an incident
+  #    snow_record:
+  #      username: "admin"
+  #      password: "{{ sn_password }}"
+  #      instance: "dev59613"
+  #      state: present
+  #      data:
+  #        short_description: "This is a test incident opened by Ansible - {{ ansible_hostname }}"
+  #        severity: "2"
+  #        priority: "2"
+  #        assigned_to: "abraham.lincoln"
+  #        assignment_group: "US Presidents Group 2"
+  #       work_notes: "from {{ ansible_hostname }}"
+  #    register: new_incident
+  #    when: app is failed
+  #    delegate_to: localhost
     
-    - debug:
-            var: new_incident.record.number
-      when: app is failed
+  #  - debug:
+  #          var: new_incident.record.number
+  #    when: app is failed
