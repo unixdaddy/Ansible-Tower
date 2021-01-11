@@ -1,0 +1,17 @@
+---
+
+- name: Teardown Webservers
+  #hosts: webservers
+  hosts: all
+  gather_facts: false
+  become: true
+  tags:
+    - teardown_webservers
+
+  tasks:
+    - name: Remove Webserver Packages
+      package:
+        name:
+          - httpd
+          - mod_wsgi 
+        state: absent
