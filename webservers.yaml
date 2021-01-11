@@ -9,8 +9,8 @@
   tasks:
     #- name: load vars for use in incident
     #  include_vars: change_request_vars.yaml
-    - name: load password vars for use in incident
-      include_vars: password.yaml
+    # - name: load password vars for use in incident
+    #  include_vars: password.yaml
 
     #- name: install apache
     #  yum:
