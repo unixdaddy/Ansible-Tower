@@ -1,4 +1,6 @@
 # static source inventory
 [webservers]
-webserver1 ansible_host=webserver1
-webserver2 ansible_host=webserver2
+#webserver1 ansible_host=webserver1
+#webserver2 ansible_host=webserver2
+webserver1 ansible_host=server1
+webserver2 ansible_host=server2
