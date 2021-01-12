@@ -1,7 +1,8 @@
 ---
 - name: Install the apache web service
-  #hosts: webservers #could use this if inventory is grouped see hosts-ec2
-  hosts: all
+  #could use this if inventory is grouped see hosts-ec2
+  hosts: webservers 
+  #hosts: all
   #become: yes
   collections:
     - servicenow.servicenow
