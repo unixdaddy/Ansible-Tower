@@ -3,6 +3,8 @@
   #could use this if inventory is grouped see hosts-ec2
   hosts: webservers 
   #hosts: all
+  # test Ansible Tower Survey
+  hosts: '{{ host_name }}'
   #become: yes
   collections:
     - servicenow.servicenow
