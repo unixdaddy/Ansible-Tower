@@ -17,7 +17,7 @@
     snow_record:
       username: "admin"
       password: "{{ sn_password }}"
-      instance: "dev59613"
+      instance: "dev80687"
       state: present
       data:
         short_description: "This is a test incident opened by Ansible - Part deux"
