@@ -1,0 +1,90 @@
+---
+- name: Install the apache web service
+  #could use this if inventory is grouped see hosts-ec2
+  hosts: webservers 
+  #hosts: all
+  # test Ansible Tower Survey
+  hosts: '{{ host_name }}'
+  #become: yes
+  collections:
+    - servicenow.servicenow
+
+  tasks:
+    #- name: load vars for use in incident
+    #  include_vars: change_request_vars.yaml
+    - name: load password vars for use in incident
+      include_vars: password.yaml
+   
+    - name: install packages
+      become: true
+      become_user: root
+      action: >
+       {{ ansible_pkg_mgr }} name=httpd state=present update_cache=yes
+      when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+    - name: install packages
+      become: true
+      become_user: root
+      action: >
+       {{ ansible_pkg_mgr }} name=apache2 state=present update_cache=yes
+      when: ansible_distribution == "Ubuntu"
+        
+    - name: start httpd
+      ignore_errors: yes
+      service:
+        name: httpd
+        state: started        
+      register: app 
+      when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+      
+    - debug:
+         var: app
+      
+    - name: Create an incident
+      snow_record:
+        username: "admin"
+        password: "{{ sn_password }}"
+        instance: "dev80687"
+        state: present
+        data:
+          short_description: "This is a test incident opened by Ansible - {{ ansible_hostname }}"
+          severity: "2"
+          priority: "2"
+          assigned_to: "abraham.lincoln"
+          assignment_group: "US Presidents Group 2"
+          work_notes: "from {{ ansible_hostname }}"
+      register: new_incident
+      delegate_to: localhost
+      when: app is failed
+  
+    - name: start httpd
+      ignore_errors: yes
+      service:
+        name: apache2
+        state: started        
+      register: app1
+      when: ansible_distribution == "Ubuntu"
+   
+    - debug:
+        var: app1
+
+    - name: Create an incident
+      snow_record:
+        username: "admin"
+        password: "{{ sn_password }}"
+        instance: "dev80687"
+        state: present
+        data:
+          short_description: "This is a test incident opened by Ansible - {{ ansible_hostname }}"
+          severity: "2"
+          priority: "2"
+          assigned_to: "abraham.lincoln"
+          assignment_group: "US Presidents Group 2"
+          work_notes: "from {{ ansible_hostname }}"
+      register: new_incident1
+      delegate_to: localhost
+      when: app1 is failed
+
+    - debug:
+        var: new_incident.record.number
+    - debug:
+        var: new_incident1.record.number
