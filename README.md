@@ -8,18 +8,18 @@ cat > .gitignore <<EOF
 collections/*  
 !collections/requirements.yml  
 EOF  
-  git init
-  git status
-  git add .
-  git status
-  git commit -m "Testing using collections in Ansible Tower"
-  git branch
-  git branch -M Main
-  git branch
-  git remote add origin git@github.com:USERNAME/REPO.git
-  git push -u origin main
-  git remote
-  git remote -v
+  git init  
+  git status  
+  git add .  
+  git status  
+  git commit -m "Testing using collections in Ansible Tower"  
+  git branch  
+  git branch -M Main  
+  git branch  
+  git remote add origin git@github.com:USERNAME/REPO.git  
+  git push -u origin main  
+  git remote  
+  git remote -v  
 ### Existing Repo with setup already in it
   cd 
   git clone git@github.com:USERNAME/REPO.git
@@ -34,7 +34,7 @@ EOF
   \##BEST for tower - CREATE collections/requirements.yml - Automatically run by TOWER  
 cat > collections/requirements.yml <<EOF  
 collections:  
-- name: servicenow.servicenow  
+\- name: servicenow.servicenow  
 source: https://galaxy.ansible.com  
 EOF  
   \## Servicenow Requires pysnow python module -- BETTER to create a yaml and install  
