@@ -35,7 +35,7 @@ EOF
 cat > collections/requirements.yml <<EOF  
 collections:  
 \- name: servicenow.servicenow  
-source: https://galaxy.ansible.com  
+   source: https://galaxy.ansible.com  
 EOF  
   \## Servicenow Requires pysnow python module -- BETTER to create a yaml and install  
   \## Rather than do it manually - automation remember  
