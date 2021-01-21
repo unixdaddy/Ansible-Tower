@@ -16,18 +16,14 @@
   # and uncomment next 2 lines
   #- name: load vars for use in incident
   #  include_vars: password.yaml
-  - name: Create an incident
-    snow_record:
-      #username: "admin"
-      #password: "{{ sn_password }}"
-      #instance: "dev80687"
-      state: present
-      data:
-        short_description: "This is a test incident opened by Ansible - Part deux"
-        severity: "2"
-        priority: "2"
-        assigned_to: "abraham.lincoln"
-        assignment_group: "US Presidents Group 2"
-    register: new_incident
+  - name: Search for incident assigned to group, return specific fields
+    snow_record_find:
+      table: incident
+      query:
+           number: INC0010004
+      return_fields:
+        - number
+        - opened_at
+    register: incident
   - debug:
-          var: new_incident.record.number
+        var: incident

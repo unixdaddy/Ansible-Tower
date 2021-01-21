@@ -1,4 +1,6 @@
 ---
+# Using my DO inventory - held in private repo cloned locally
+# ansible-playbook -i ../do_inventory/inventory webservers_snow_incident.yaml -e 'host_name=all' --ask-vault-pass
 - name: Install the apache web service
   #could use this if inventory is grouped see hosts-ec2
   hosts: webservers 
@@ -54,7 +56,7 @@
           work_notes: "from {{ ansible_hostname }}"
       register: new_incident
       delegate_to: localhost
-      when: app is failed
+      when: app is not changed 
   
     - name: start httpd
       ignore_errors: yes
@@ -82,7 +84,7 @@
           work_notes: "from {{ ansible_hostname }}"
       register: new_incident1
       delegate_to: localhost
-      when: app1 is failed
+      when: app1 is not changed
 
     - debug:
         var: new_incident.record.number
