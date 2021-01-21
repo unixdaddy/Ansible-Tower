@@ -14,8 +14,8 @@
   # Don't need encrypted vault file if we use ENV SN_USERNAME, SN_PASSWORD and SN_INSTANCE
   # which we would do if setup in TOWER if not not using ENV then update vault file password
   # and uncomment next 2 lines
-  #- name: load vars for use in incident
-  #  include_vars: password.yaml
+  - name: load vars for use in incident
+    include_vars: password.yaml
   - name: Create an incident
     snow_record:
       #username: "admin"
