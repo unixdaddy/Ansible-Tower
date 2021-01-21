@@ -18,9 +18,9 @@
     include_vars: password.yaml
   - name: Create an incident
     snow_record:
-      #username: "admin"
-      #password: "{{ sn_password }}"
-      #instance: "dev80687"
+      username: "admin"
+      password: "{{ sn_password }}"
+      instance: "dev80687"
       state: present
       data:
         short_description: "This is a test incident opened by Ansible - Part deux"
