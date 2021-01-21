@@ -47,6 +47,8 @@
           register: new_incident
           delegate_to: localhost
           when: app is not changed 
+        - debug:
+            var: new_incident.record.number
   
       when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
       
@@ -82,10 +84,8 @@
           register: new_incident1
           delegate_to: localhost
           when: app1 is not changed 
+
+        - debug:
+            var: new_incident1.record.number
   
       when: ansible_distribution == "Ubuntu"
-
-    - debug:
-        var: new_incident.record.number
-    - debug:
-        var: new_incident1.record.number
