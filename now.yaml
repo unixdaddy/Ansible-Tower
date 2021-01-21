@@ -1,0 +1,16 @@
+# Simple Inventory Plugin example
+plugin: servicenow.servicenow.now
+# set and export ENV variables - SN_PASSWORD, SN_USERNAME, SN_PASSWORD - if you don't want to set here
+#instance: dev80687
+#username: admin
+#password: 'XXXX'
+keyed_groups:
+  - key: sn_sys_class_name | lower
+    prefix: ''
+    separator: ''
+# can use following commands if all is working
+# ansible-inventory -i now.yaml --graph
+# ansible-inventory -i now.yaml --list
+# ansible-inventory -i now.yaml --host 'BLAH'
+# ansible-doc -t inventory servicenow.servicenow.now <-- useful to explain and get examples of this file
+# NOTE this file MUST END in now.yaml i.e. blahnow.yaml daz_now.yaml

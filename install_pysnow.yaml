@@ -1,0 +1,5 @@
+---
+- name: Install pysnow - pythons SNOW library using Pip
+  pip:
+    name: pysnow
+### if we don't do this need to manual install on each Tower host
