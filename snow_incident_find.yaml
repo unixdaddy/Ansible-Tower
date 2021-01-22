@@ -20,10 +20,10 @@
     snow_record_find:
       table: incident
       query:
-           number: INC0010004
+           number: INC0010009
       return_fields:
         - number
         - opened_at
     register: incident
   - debug:
-        var: incident
+       var: incident

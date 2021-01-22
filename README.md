@@ -4,7 +4,7 @@ mkdir -p Ansible-Tower/collections
 cd Ansible-Tower  
   
 \##Ensure the collection is not stored in GIT Repo  
-cat > .gitignore <<EOF  
+cat > .gitignore << EOF  
 collections/*  
 !collections/requirements.yml  
 EOF  
@@ -29,21 +29,20 @@ EOF
   \##installs in HOMEDIR/.ansible - installs outside of REPO  
    ansible-galaxy collection install servicenow.servicenow   
   
-   \##Better for tower - installs inside of REPO and static  
-   cd /REPO  
-   mkdir collections  
-   ansible-galaxy collection install servicenow.servicenow -p collections/  
-  
   \##BEST for tower - CREATE collections/requirements.yml - Automatically run by TOWER  
   \##Setup Requirements file and then use it to install - .gitignore will ensure not sync'd to GIT  
-  \##But we can still test locally as ansible.cfg points to the ./collections directory for  
+  \##.gitignore will ensure collections in collection directory are not sync'd BUT TOWER will run requirements.yml  
+  \##we can still test outside of TOWER as ansible.cfg points to the ./collections directory for  
   \##servicenow plugin  
+  
 cat > collections/requirements.yml <<EOF  
 collections:  
 \- name: servicenow.servicenow  
    source: https://galaxy.ansible.com  
 EOF  
    ansible-galaxy collection install -r collections/requirements.yml -p collections/  
+
+  \##rm .gitignore collections/requirements.yml - GIT will get static copy of collection which TOWER will use  
   
   \## Servicenow Requires pysnow python module -- BETTER to create a yaml and install  
   \## Rather than do it manually - automation remember  
@@ -81,7 +80,7 @@ EOF
 ### Create Incidents in Servicenow - snow_incident.yaml
   \## Create yaml file  
   \## see snow_incident.yaml for example OR  
-  \## use ansible-doc to see the examp;les and create from that  
+  \## use ansible-doc to see the examples and create from that  
   ansible-doc servicenow.servicenow.snow_record  
   
   \## You can either use ENV or Create a vault encrypted file with credentials i.e password.yaml  
@@ -99,7 +98,7 @@ EOF
 ### Find Incidents in Servicenow - snow_incident_find.yaml  
   \## Create yaml file  
   \## see snow_incident_find.yaml for example OR  
-  \## use ansible-doc to see the examp;les and create from that  
+  \## use ansible-doc to see the examples and create from that  
   ansible-doc servicenow.servicenow.snow_record_find  
   
   \## You can either use ENV or Create a vault encrypted file with credentials i.e password.yaml  
@@ -117,7 +116,7 @@ EOF
 ### Install Webservers on Digital Ocean VMs - webservers.yaml  
   \## After creating VM using doctl  
   \#doctl compute droplet create --region lon1 --image ubuntu-18-04-x64 --size s-1vcpu-1gb ansible-1 --ssh-keys ID  
-  \## Create Using inventory using do-ansible-inventory  
+  \## Create inventory using do-ansible-inventory  
   \#do-ansible-inventory --group-by-tag --group-by-project --group-by-region --out ~/do_inventory/inventory  
   ansible-playbook -i ../do_inventory/inventory webservers.yaml -e 'host_name=all' --ask-vault-pass  
   
