@@ -1,17 +1,30 @@
 ---
-
-- name: Teardown Webservers
-  #hosts: webservers
+# Using my DO inventory - held in private repo cloned locally
+# ansible-playbook -i ../do_inventory/inventory teardown.yml
+- name: Teardown the apache web service
+  #  hosts: webservers 
   hosts: all
-  gather_facts: false
-  become: true
-  tags:
-    - teardown_webservers
+  #become: yes
 
   tasks:
-    - name: Remove Webserver Packages
-      package:
-        name:
-          - httpd
-          - mod_wsgi 
-        state: absent
+
+    - name: CENTOS Webservers setup - teardown
+      block: 
+        - name: Teardown CENTOS / REDHAT webserver
+          become: true
+          become_user: root
+          action: >
+           {{ ansible_pkg_mgr }} name=httpd state=absent 
+
+      when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+      
+
+    - name: UBUNTU Webservers setup - teardown
+      block: 
+        - name: Teardown UBUNTU webserver
+          become: true
+          become_user: root
+          action: >
+           {{ ansible_pkg_mgr }} name=apache2 state=absent update_cache=yes
+
+      when: ansible_distribution == "Ubuntu"

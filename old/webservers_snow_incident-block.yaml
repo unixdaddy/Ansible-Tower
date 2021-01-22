@@ -3,7 +3,7 @@
 # ansible-playbook -i ../do_inventory/inventory webservers_snow_incident.yaml -e 'host_name=all' --ask-vault-pass
 - name: Install the apache web service
   #could use this if inventory is grouped see hosts-ec2
-  #  hosts: webservers 
+  hosts: webservers 
   #hosts: all
   # test Ansible Tower Survey
   hosts: '{{ host_name }}'
@@ -12,10 +12,10 @@
     - servicenow.servicenow
 
   tasks:
-    # load vars for use in connection to ServiceNow
+    #- name: load vars for use in incident
+    #  include_vars: change_request_vars.yaml
     - name: load password vars for use in incident
       include_vars: password.yaml
-
     - name: CENTOS Webservers setup  
       block: 
         - name: install packages
@@ -29,6 +29,7 @@
           service:
             name: httpd
             state: started        
+          register: app 
 
       rescue:
         - name: Create an incident - CENTOS or REDHAT
@@ -46,12 +47,12 @@
               work_notes: "from {{ ansible_hostname }}"
           register: new_incident
           delegate_to: localhost
-
+          when: app is not changed 
         - debug:
             var: new_incident.record.number
       always:
         - debug:
-            msg: "Successful Install and Start"
+            msg: "Successful Install"
   
       when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
       
@@ -69,6 +70,7 @@
           service:
             name: apache2
             state: started        
+          register: app1 
       rescue:
         - name: Create an incident - UBUNTU
           snow_record:
@@ -85,11 +87,12 @@
               work_notes: "from {{ ansible_hostname }}"
           register: new_incident1
           delegate_to: localhost
+          when: app1 is not changed 
 
         - debug:
             var: new_incident1.record.number
       always:
         - debug:
-            msg: "Successful Install and Start"
+            msg: "Successful Install"
   
       when: ansible_distribution == "Ubuntu"

@@ -1,5 +1,3 @@
 collections:
   - name: servicenow.servicenow
     source: https://galaxy.ansible.com
-  - name: ansible.product_demos
-    source: https://galaxy.ansible.com

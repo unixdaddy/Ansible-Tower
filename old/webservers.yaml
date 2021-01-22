@@ -1,0 +1,44 @@
+---
+- name: Install the apache web service
+  #could use this if inventory is grouped see hosts-ec2
+  #hosts: webservers 
+  #hosts: all
+  # test Ansible Tower Survey
+  hosts: '{{ host_name }}'
+  #become: yes
+
+  tasks:
+    # load vars for use in connecting to ServiceNow - can be done in TOWER
+      include_vars: password.yaml
+   
+    - name: install packages
+      become: true
+      become_user: root
+      action: >
+       {{ ansible_pkg_mgr }} name=httpd state=present update_cache=yes
+      when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+    - name: start httpd
+      ignore_errors: yes
+      service:
+        name: httpd
+        state: started        
+      register: app 
+      when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+  
+    - name: install packages
+      become: true
+      become_user: root
+      action: >
+       {{ ansible_pkg_mgr }} name=apache2 state=present update_cache=yes
+      when: ansible_distribution == "Ubuntu"
+        
+    - name: start httpd
+      ignore_errors: yes
+      service:
+        name: apache2
+        state: started        
+      when: ansible_distribution == "Ubuntu"
+   
+    - debug:
+         var: app

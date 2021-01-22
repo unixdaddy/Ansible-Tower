@@ -21,7 +21,7 @@ EOF
   git remote  
   git remote -v  
 ### Existing Repo with setup already in it
-  cd 
+  cd   
   git clone git@github.com:USERNAME/REPO.git
   cd Ansible-Tower/
 ### Install Servicenow Collection
@@ -37,6 +37,7 @@ collections:
 \- name: servicenow.servicenow  
    source: https://galaxy.ansible.com  
 EOF  
+   ansible-galaxy collection install -r collections/requirements.yml -p collections/  
   \## Servicenow Requires pysnow python module -- BETTER to create a yaml and install  
   \## Rather than do it manually - automation remember  
   pip3 install pysnow  
@@ -44,13 +45,16 @@ EOF
   \## update ansible_cfg to path to plugin and FQCN i.e. /root/.ansible  - outside of REPO  
   vim /etc/ansible/ansible.cfg   
   \## BEST Create a local ansible.cfg - in REPO - see ansible.cfg in this Repo  
+  \## copy /etc/ansible/ansible.cfg into REPO and amend
   vim /REPO/ansible.cfg  
-   [ Default ]  
-    
-    
-   [ Inventory ]  
-    
-    
+  [defaults]  
+  
+  inventory_plugins  = /usr/share/ansible/plugins/inventory:./collections  
+  collections_paths = ./collections:/usr/share/ansible/collections  
+  
+  [inventory]   
+  enable_plugins = host_list, virtualbox, yaml, ini, constructed, servicenow.servicenow.now  
+      
 ### Use Servicenow plugin to query SNOW for CIs - now.yaml
   \## Create now.yaml <-- name must end in now.yaml i.e. blah-now.yaml  
   \## see now.yaml for example OR  
