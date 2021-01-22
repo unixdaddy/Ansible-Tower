@@ -4,6 +4,7 @@
 - name: Teardown the apache web service
   #  hosts: webservers 
   hosts: all
+  gather_facts: yes
   #become: yes
 
   tasks:
