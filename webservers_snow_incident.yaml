@@ -18,13 +18,13 @@
 
     - name: CENTOS Webservers setup  
       block: 
-        - name: install packages
+        - name: install CENTOS or REDHATpackages
           become: true
           become_user: root
           action: >
            {{ ansible_pkg_mgr }} name=httpd state=present update_cache=yes
 
-        - name: start httpd
+        - name: start CENTOS or REDHAT httpd
           ignore_errors: yes
           service:
             name: httpd
@@ -51,20 +51,20 @@
             var: new_incident.record.number
       always:
         - debug:
-            msg: "Successful Install and Start"
+            msg: "Successful Install and Start on CENTOS or REDHAT"
   
       when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
       
 
     - name: UBUNTU Webservers setup  
       block: 
-        - name: install packages
+        - name: install UBUNTU packages
           become: true
           become_user: root
           action: >
            {{ ansible_pkg_mgr }} name=apache2 state=present update_cache=yes
 
-        - name: start httpd
+        - name: start UBUNTU apache2
           ignore_errors: yes
           service:
             name: apache2
@@ -90,6 +90,6 @@
             var: new_incident1.record.number
       always:
         - debug:
-            msg: "Successful Install and Start"
+            msg: "Successful Install and Start on UBUNTU"
   
       when: ansible_distribution == "Ubuntu"
