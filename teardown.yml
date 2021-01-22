@@ -25,6 +25,6 @@
           become: true
           become_user: root
           action: >
-           {{ ansible_pkg_mgr }} name=apache2 state=absent update_cache=yes
+           {{ ansible_pkg_mgr }} name=apache2 state=absent 
 
       when: ansible_distribution == "Ubuntu"
