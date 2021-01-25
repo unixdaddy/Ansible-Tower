@@ -30,9 +30,11 @@ EOF
    ansible-galaxy collection install servicenow.servicenow   
   
   ##BEST for tower - CREATE collections/requirements.yml - Automatically run by TOWER  
-  ##Setup Requirements file and then use it to install - .gitignore will ensure not sync'd to GIT  
-  ##.gitignore will ensure collections in collection directory are not sync'd BUT TOWER will run requirements.yml  
+  ##Setup Requirements file and then use it to install 
+  ##.gitignore will ensure collections in collection directory are not sync'd BUT
+  ##TOWER will automatically run requirements.yml and pull in the needed collections
   ##we can still test outside of TOWER as ansible.cfg points to the ./collections directory for  
+
   ##servicenow plugin  
   
 cat > collections/requirements.yml <<EOF  
@@ -49,18 +51,11 @@ EOF
   pip3 install pysnow  
   pip3 list | grep pysnow  
   
-  ## update ansible_cfg to path to plugin and FQCN i.e. /root/.ansible  - outside of REPO  
-  vim /etc/ansible/ansible.cfg   
-  
   ## BEST Create a local ansible.cfg - in REPO - see ansible.cfg in this Repo  
   vim /REPO/ansible.cfg  
   [defaults]  
   
-  inventory_plugins  = /usr/share/ansible/plugins/inventory:./collections  
   collections_paths = ./collections:/usr/share/ansible/collections  
-  
-  [inventory]   
-  enable_plugins = host_list, virtualbox, yaml, ini, constructed, servicenow.servicenow.now  
         
 ### Use Servicenow plugin to query SNOW for CIs - now.yaml
   ## Create now.yaml <-- name must end in now.yaml i.e. blah-now.yaml  
