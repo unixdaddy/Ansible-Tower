@@ -18,6 +18,9 @@
   #  include_vars: password.yaml
   - name: Search for incident assigned to group, return specific fields
     snow_record_find:
+      username: "admin"
+      password: "{{ sn_password }}"
+      instance: "dev80687"
       table: incident
       query:
            number: '{{ sn_number }}' #INC0010009
