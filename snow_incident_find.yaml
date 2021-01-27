@@ -20,7 +20,7 @@
     snow_record_find:
       table: incident
       query:
-           number: INC0010009
+           number: '{{ sn_number }}' #INC0010009
       return_fields:
         - number
         - opened_at
