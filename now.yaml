@@ -1,7 +1,7 @@
 # Simple Inventory Plugin example
 plugin: servicenow.servicenow.now
 # set and export ENV variables - SN_PASSWORD, SN_USERNAME, SN_PASSWORD - if you don't want to set here
-#instance: dev80687
+#instance: dev36397
 #username: admin
 #password: 'XXXX'
 keyed_groups:

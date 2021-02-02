@@ -48,8 +48,9 @@ EOF
   
   ## Servicenow Requires pysnow python module -- BETTER to create a yaml and install  
   ## Rather than do it manually - automation remember  
-  pip3 install pysnow  
-  pip3 list | grep pysnow  
+  #pip3 install pysnow  
+  #pip3 list | grep pysnow  
+  ansible-playbook install_pysnow.yml # PLEASE CHECK FILE FIRST FOR TOWER NEEDS AWX USER?
   
   ## BEST Create a local ansible.cfg - in REPO - see ansible.cfg in this Repo  
   vim /REPO/ansible.cfg  

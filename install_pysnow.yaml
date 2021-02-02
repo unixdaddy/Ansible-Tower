@@ -1,5 +1,16 @@
 ---
 - name: Install pysnow - pythons SNOW library using Pip
-  pip:
-    name: pysnow
+  hosts: localhost
+  become: yes
+###i want to install system wide - on a real tower this probably wants doing as awx user
+
+  tasks:
+  - name: Update pip on local tower
+    pip:
+      name: pip
+      state: latest
+  - name: Install on local tower
+    pip:
+      name: pysnow
+      state: present
 ### if we don't do this need to manual install on each Tower host
