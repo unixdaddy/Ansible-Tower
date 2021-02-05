@@ -143,9 +143,9 @@ env:
   ansible-doc servicenow.servicenow.snow_record_find  
   
   ## if not using ENV - using load password task to include encrypted password file - see step 7
-   ansible-playbook snow_incident_find.yaml --ask-vault-pass  
+   ansible-playbook snow_incident_find.yaml --ask-vault-pass  -e "sn_number=INC0010004"
   ## if using ENV (comment out load password task in snow_incident_find.yaml)  - see step 7
-  ansible-playbook snow_incident_find.yaml  
+  ansible-playbook snow_incident_find.yaml -e "sn_number=INC0010004"
   
 11. Install Webservers on Digital Ocean VMs - webservers.yaml  
   ## After creating VM using doctl or alternatively ansible 

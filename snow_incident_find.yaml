@@ -7,20 +7,21 @@
     - servicenow.servicenow
 
   tasks:
-  #- name: Install snow python package <-- need to look at using k8s module and venv?!!??
+  #- name: Install snow python package <-- seperate yaml in repo. For k8s need to consider venv?!!??
   #  pip:
   #    name: pysnow
     
   # Don't need encrypted vault file if we use ENV SN_USERNAME, SN_PASSWORD and SN_INSTANCE
   # which we would do if setup in TOWER if not not using ENV then update vault file password
-  # and uncomment next 2 lines
+  # and uncomment next 2 lines and then 3 lines further down
   #- name: load vars for use in incident
   #  include_vars: password.yaml
   - name: Search for incident assigned to group, return specific fields
     snow_record_find:
-      username: "admin"
-      password: "{{ sn_password }}"
-      instance: "dev36397"
+      # Also uncomment this lines if you vault file password
+      #username: "admin"
+      #password: "{{ sn_password }}"
+      #instance: "dev36397"
       table: incident
       query:
            number: '{{ sn_number }}' #INC0010009
