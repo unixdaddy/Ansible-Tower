@@ -64,7 +64,7 @@ EOF
   
   collections_paths = ./collections:/usr/share/ansible/collections  
 
-7. Create encrypted password file OR setup ENV variables
+7. Create encrypted password file OR setup ENV variables OR setup Tower Credential
 
   ## You can either use ENV or Create a vault encrypted file with credentials to ServiceNow 
   ## Instance i.e password.yaml. In the password file set SN_PASSWORD like this
@@ -78,6 +78,33 @@ OR
   export SN_PASSWORD=XXX  
   export SN_INSTANCE=devXXXXX  
   export SN_USERNAME=admin  
+ 
+ ##NOTE: if using TOWER then either 
+    ##create credential to unlock vault - password.yaml
+      OR
+    ##Setup New credential type - ServiceNow
+    ##Use that new credential type to create ServiceNow credential
+##Input configuration panel
+fields:
+  - id: instance
+    type: string
+    label: Instance
+  - id: username
+    type: string
+    label: Username
+  - id: password
+    type: string
+    label: Password
+    secret: true
+required:
+  - instance
+  - username
+  - password
+##Injector configuration panel
+env:
+  SN_INSTANCE: '{{instance}}'
+  SN_PASSWORD: '{{password}}'
+  SN_USERNAME: '{{username}}'
 
 8. Use Servicenow plugin to query SNOW for CIs - now.yaml
   ## Create now.yaml <-- name must end in now.yaml i.e. blah-now.yaml  
@@ -92,7 +119,7 @@ OR
   username: admin
   password: 'XXXX'   
   
-  ## following commands should now work
+ ## following commands should now work
   ansible-inventory -i now.yaml --graph  
   ansible-inventory -i now.yaml --list  
   ansible-inventory -i now.yaml --host "OWA-SD-01"  
