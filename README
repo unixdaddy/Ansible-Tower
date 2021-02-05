@@ -106,6 +106,7 @@ env:
   SN_PASSWORD: '{{password}}'
   SN_USERNAME: '{{username}}'
 
+######## NOTE: MAKE SURE YOUR SERVICENOW DEMO INSTANCE IS AWAKE ###########
 8. Use Servicenow plugin to query SNOW for CIs - now.yaml
   ## Create now.yaml <-- name must end in now.yaml i.e. blah-now.yaml  
   ## see now.yaml for example OR  
