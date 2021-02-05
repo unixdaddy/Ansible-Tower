@@ -31,6 +31,7 @@ EOF
   ##TOWER will automatically run requirements.yml and pull in the needed collections
   ##we can still test outside of TOWER as ansible.cfg points to the ./collections directory for  
   ##servicenow plugin  
+  ##you might also want to pin to a specific collection version
   
 cat > collections/requirements.yml <<EOF  
 collections:  
@@ -46,63 +47,65 @@ EOF
 3. Install Servicenow Collection using requirements.yml 
    ansible-galaxy collection install -r collections/requirements.yml -p collections/  
 
-  ##rm .gitignore collections/requirements.yml - GIT will get static copy of collection which TOWER will use  
-  
-4. Servicenow Requires pysnow python module -- BETTER to create a yaml and install  
-  #pip3 install pysnow  
-  #pip3 list | grep pysnow  
-  ansible-playbook install_pysnow.yml # PLEASE CHECK become FILE FIRST FOR TOWER NEEDS AWX USER?
+  ##Remove .gitignore AND collections/requirements.yml - GIT will get static copy of collection which TOWER 
+  ##will use as the ansible.cfg points to the local collections path.
+
+4. Servicenow Requires pysnow python module -- create a yaml and install  
+  #manual - pip3 install pysnow and pip3 list | grep pysnow  
+  ansible-playbook install_pysnow.yml # setup a repo/project to install this in tower under AWX USER
 
 5. On WSL had an issue with complaining about netaddr when running now.yaml 
-  ## so had to install it - might need to add to install_pysnow.yml
+  ## so had to install it
   pip install netaddr
   
-6. BEST Create a local ansible.cfg - in REPO - see ansible.cfg in this Repo  - NOT required if REPO clonned
+6. Create a local ansible.cfg - in REPO - see ansible.cfg in this Repo  - NOT required if REPO clonned
   vim /REPO/ansible.cfg  
   [defaults]  
   
   collections_paths = ./collections:/usr/share/ansible/collections  
-        
-7. Use Servicenow plugin to query SNOW for CIs - now.yaml
-  ## Create now.yaml <-- name must end in now.yaml i.e. blah-now.yaml  
-  ## see now.yaml for example OR  
-  ## use ansible-doc to see the examples and create from that  
-  ansible-doc -t inventory servicenow.servicenow.now  
-  
-  ## following commands should now work  
-  ## set variables instead of putting in now.yaml  
-  export SN_PASSWORD=XXX  
-  export SN_INSTANCE=devXXXXX  
-  export SN_USERNAME=admin  
-  ansible-inventory -i now.yaml --graph  
-  ansible-inventory -i now.yaml --list  
-  ansible-inventory -i now.yaml --host "OWA-SD-01"  
-  
-8. Create encrypted password file OR use ENV
 
-  ## You can either use ENV or Create a vault encrypted file with credentials to ServiceNow Instance i.e password.yaml  
-  ## In the password file set SN_PASSWORD like this
+7. Create encrypted password file OR setup ENV variables
+
+  ## You can either use ENV or Create a vault encrypted file with credentials to ServiceNow 
+  ## Instance i.e password.yaml. In the password file set SN_PASSWORD like this
 cat > password.yaml <<EOF  
  sn_password: XXXXX 
 EOF  
  ## encrypt with ansible-vault - enter the password when prompted
  ansible-vault encrypt password.yaml
 OR
-  ## if using ENV 
+ ## if using ENV 
   export SN_PASSWORD=XXX  
   export SN_INSTANCE=devXXXXX  
   export SN_USERNAME=admin  
 
-
+8. Use Servicenow plugin to query SNOW for CIs - now.yaml
+  ## Create now.yaml <-- name must end in now.yaml i.e. blah-now.yaml  
+  ## see now.yaml for example OR  
+  ## use ansible-doc to see the examples and create from that  
+  ansible-doc -t inventory servicenow.servicenow.now  
+  
+  ## set ENV variables see step 7  
+    OR
+  ## update the inventory file (now.yaml) with following lines
+  instance: devXXX
+  username: admin
+  password: 'XXXX'   
+  
+  ## following commands should now work
+  ansible-inventory -i now.yaml --graph  
+  ansible-inventory -i now.yaml --list  
+  ansible-inventory -i now.yaml --host "OWA-SD-01"  
+  
 9. Create Incidents in Servicenow - snow_incident.yaml
   ## Create yaml file  
   ## see snow_incident.yaml for example OR  
   ## use ansible-doc to see the examples and create from that  
   ansible-doc servicenow.servicenow.snow_record  
   
-  ## if not using ENV - using load password task to include encrypted password file 
-   ansible-playbook snow_incident.yaml --ask-vault-pass  
-  ## if using ENV (comment out load password task in relevant snow_incident.yaml file)  
+  ## if not using ENV - using load password task to include encrypted password file - see step 7
+  ansible-playbook snow_incident.yaml --ask-vault-pass  
+  ## if using ENV (comment out load password task in relevant snow_incident.yaml file) - see step 7
   ansible-playbook snow_incident.yaml  
   
 10. Find Incidents in Servicenow - snow_incident_find.yaml  
@@ -111,9 +114,9 @@ OR
   ## use ansible-doc to see the examples and create from that  
   ansible-doc servicenow.servicenow.snow_record_find  
   
-  ## if not using ENV - using load password task to include encrypted password file 
+  ## if not using ENV - using load password task to include encrypted password file - see step 7
    ansible-playbook snow_incident_find.yaml --ask-vault-pass  
-  ## if using ENV (comment out load password task in snow_incident_find.yaml)  
+  ## if using ENV (comment out load password task in snow_incident_find.yaml)  - see step 7
   ansible-playbook snow_incident_find.yaml  
   
 11. Install Webservers on Digital Ocean VMs - webservers.yaml  
@@ -121,12 +124,12 @@ OR
   #doctl compute droplet create --region lon1 --image ubuntu-18-04-x64 --size s-1vcpu-1gb ansible-1 --ssh-keys ID  
   ## Create inventory using do-ansible-inventory  
   #do-ansible-inventory --group-by-tag --group-by-project --group-by-region --out ~/do_inventory/inventory  
-  ansible-playbook -i ../do_inventory/inventory webservers.yaml -e 'host_name=all' --ask-vault-pass  
+  ansible-playbook -i ../do_inventory/inventory webservers.yaml -e 'host_name=all'  
   
 12. Install Webservers on Digital Ocean VMs and Generate a incident - webservers_snow_incident.yaml
   ## This will deliberatly trigger an incident when things start  
   ## Normally you would trigger it on a failure but i am testing  
-  ## if not using ENV - using load password task to include encrypted password file   
+  ## if not using ENV - using load password task to include encrypted password file - see step 7   
   ansible-playbook -i ../do_inventory/inventory webservers_snow_incident.yaml -e 'host_name=all' --ask-vault-pass  
-  ## if using ENV  (comment out load password task in webserver_snow_incident.yaml)  
+  ## if using ENV  (comment out load password task in webserver_snow_incident.yaml)  - see step 7
   ansible-playbook -i ../do_inventory/inventory webservers_snow_incident.yaml -e 'host_name=all' 
