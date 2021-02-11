@@ -161,3 +161,4 @@ env:
   ansible-playbook -i ../do_inventory/inventory webservers_snow_incident.yaml -e 'host_name=all' --ask-vault-pass  
   ## if using ENV  (comment out load password task in webserver_snow_incident.yaml)  - see step 7
   ansible-playbook -i ../do_inventory/inventory webservers_snow_incident.yaml -e 'host_name=all' 
+
