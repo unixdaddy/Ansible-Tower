@@ -59,9 +59,9 @@ Used to test Ansible Engine/Tower and playbook refactoring - locally and in the 
 
 **__This Repo's Purpose__**
 
-*The idea of this Repo is for ME to build assorted playbooks for use in Ansible Tower and totest external intergrations with Tower like ServiceNow, Mattermost, Slack, Cyberark, HashiCorp, Microsoft AD etc...*
+*The idea of this Repo is for ME to build assorted playbooks for use in Ansible Tower and to test external intergrations with Tower like ServiceNow, Mattermost, Slack, Cyberark, HashiCorp, Microsoft AD etc...*
 
-**Initial Integration is with ServiceNow"
+**Initial Integration is with ServiceNow**
 
 This repo uses the following from **MY** environment
 1. Ansible Engine /  Ansible Tower VM (Local)
