@@ -13,8 +13,8 @@
 
   tasks:
     # load vars for use in connection to ServiceNow
-    - name: load password vars for use in incident
-      include_vars: password.yaml
+    #- name: load password vars for use in incident
+    #  include_vars: password.yaml
 
     - name: CENTOS Webservers setup  
       block: 
@@ -34,8 +34,9 @@
         - name: Create an incident - CENTOS or REDHAT
           snow_record:
             username: "admin"
-            password: "{{ sn_password }}"
-            instance: "dev36397"
+            #password: "{{ sn_password }}"
+            password: "{{ lookup('env', 'SN_PASSWORD') }}"
+            instance: "dev72659"
             state: present
             data:
               short_description: "This is a test incident opened by Ansible - {{ ansible_hostname }}"
@@ -73,8 +74,9 @@
         - name: Create an incident - UBUNTU
           snow_record:
             username: "admin"
-            password: "{{ sn_password }}"
-            instance: "dev36397"
+            #password: "{{ sn_password }}"
+            password: "{{ lookup('env', 'SN_PASSWORD') }}"
+            instance: "dev72659"
             state: present
             data:
               short_description: "This is a test incident opened by Ansible - {{ ansible_hostname }}"

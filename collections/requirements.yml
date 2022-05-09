@@ -1,3 +1,5 @@
 collections:
   - name: servicenow.servicenow
     source: https://galaxy.ansible.com
+  - name: servicenow.itsm
+    source: https://galaxy.ansible.com

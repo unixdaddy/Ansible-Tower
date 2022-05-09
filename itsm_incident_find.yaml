@@ -1,0 +1,30 @@
+---
+#ansible-playbook itsm_incident_find.yaml -e "sn_number=INC0010008"
+#ansible-navigator run --eei localhost/servicenow_ee:latest --pp never itsm_incident_find.yaml --penv SN_PASSWORD -e "sn_number=INC0010008" -m stdout
+- name: Using ServiceNow Collection
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  collections:
+    - servicenow.itsm
+
+  tasks:
+  #- name: Install snow python package <-- seperate yaml in repo. For k8s need to consider venv?!!??
+  #  pip:
+  #    name: pysnow
+    
+  # Don't need encrypted vault file if we use ENV SN_USERNAME, SN_PASSWORD and SN_INSTANCE
+  # which we would do if setup in TOWER if not not using ENV then update vault file password
+  # and uncomment next 2 lines and then 3 lines further down
+  #- name: load vars for use in incident
+  #  include_vars: password.yaml
+  - name: Retrieve incidents by number
+    servicenow.itsm.incident_info:
+     instance:
+       username: admin
+       password: "{{ lookup('env', 'SN_PASSWORD') }}"
+       host: https://dev72659.service-now.com
+     number: INC0010008
+    register: incident
+  - debug:
+       var: incident

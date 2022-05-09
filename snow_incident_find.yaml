@@ -1,4 +1,6 @@
 ---
+#ansible-playbook snow_incident_find.yaml -e "sn_number=INC0010008"
+#ansible-navigator run --eei localhost/servicenow_ee:latest --pp never snow_incident_find.yaml --penv SN_PASSWORD -e "sn_number=INC0010008" -m stdout
 - name: Using ServiceNow Collection
   hosts: localhost
   connection: local
@@ -19,9 +21,9 @@
   - name: Search for incident assigned to group, return specific fields
     snow_record_find:
       # Also uncomment this lines if you vault file password
-      #username: "admin"
-      #password: "{{ sn_password }}"
-      #instance: "dev36397"
+      username: "admin"
+      password: "{{ lookup('env', 'SN_PASSWORD') }}"
+      instance: "dev72659"
       table: incident
       query:
            number: '{{ sn_number }}' #INC0010009

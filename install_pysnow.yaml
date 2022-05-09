@@ -1,7 +1,8 @@
 ---
 - name: Install pysnow - pythons SNOW library using Pip
   hosts: localhost
-  become: yes
+  connection: local
+  #become: yes
 ###i want to install system wide - on a real tower this probably wants doing as awx user
 
   tasks:
