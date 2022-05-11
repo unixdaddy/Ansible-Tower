@@ -1,0 +1,14 @@
+---
+#ansible-inventory -i inventory.now.yaml --graph
+plugin: servicenow.itsm.now
+# defined in SN_HOST, SN_PASSWORD, SN_USERNAME variable
+#instance:
+# username: admin
+# password: ""
+# host: https://dev72659.service-now.com
+query:
+  - os: = Linux Red Hat
+  - os: = Windows XP
+keyed_groups:
+  - key: os
+    prefix: os

@@ -1,0 +1,26 @@
+## ansible-playbook itsm_problem.yaml
+#ansible-navigator run --eei localhost/servicenow_ee:latest --pp never itsm_problem.yaml --penv SN_PASSWORD --penv SN_HOST --penv SN_USERNAME -m stdout
+- name: Using ServiceNow Collection
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  collections:
+  - servicenow.itsm
+
+  tasks:
+  - name: Create a problem
+    servicenow.itsm.problem:
+      short_description: my-problem
+      state: new
+    register: problem
+
+  - name: Create a problem task
+    servicenow.itsm.problem_task:
+      state: new
+      type: general
+      source_problem: "{{ problem.record.number }}"
+      short_description: my-problem-task
+      priority: low
+    register: problem_task
+  - debug:
+       msg: " Problem Record is {{problem.record.number}} and Problem Task is {{problem_task.record.number}}"

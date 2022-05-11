@@ -1,0 +1,13 @@
+- name: Using ServiceNow Collection
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  collections:
+  - servicenow.itsm
+
+  tasks: 
+  - name: Retrieve all incidents
+    servicenow.itsm.incident_info:
+      #incident_mapping:
+      #  state:
+      #    1: "new"
